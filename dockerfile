@@ -28,4 +28,11 @@ COPY --from=builder /app .
 EXPOSE 8000
 
 
+# Create and switch to non-root user
+RUN adduser --disabled-password --gecos '' nonrootuser
+USER nonrootuser
+
+# Set the entrypoint for the application
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONPATH=/app
 CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
